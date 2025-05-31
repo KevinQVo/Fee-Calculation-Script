@@ -24,7 +24,7 @@ def parse_date(date_str):
 # --- Streamlit App ---
 
 st.set_page_config(page_title="Fee Calculator", layout="centered")
-st.title("Fee Calculation Tool")
+st.title("📊 Fee Calculation Tool")
 
 # Input Fields
 supp_bill_input = st.text_input("Enter the Supplemental Bill Date (MM/DD/YYYY)", "03/04/2025")
@@ -56,4 +56,9 @@ else:
     fee = calculate_annualized_fee(amount, rate, days_left)
 
     st.subheader("📈 Fee Summary")
+    st.write(f"**Amount**: ${amount:,.2f}")
+    st.write(f"**Annual Rate**: {rate:.6f}")
+    st.write(f"**Supplemental Bill Date**: {supp_bill_date.strftime('%m/%d/%Y')}")
+    st.write(f"**Quarter End Date**: {quarter_end_date.strftime('%m/%d/%Y')}")
+    st.write(f"**Days Left in Quarter**: {days_left}")
     st.success(f"**Calculated Fee**: ${fee:,.2f}")
