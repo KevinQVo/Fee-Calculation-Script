@@ -29,8 +29,8 @@ st.title("Fee Calculation Tool")
 # Input Fields
 supp_bill_input = st.text_input("Enter the Supplemental Bill Date (MM/DD/YYYY)", "03/04/2025")
 quarter_end_input = st.text_input("Enter the Quarter End Date (MM/DD/YYYY)", "03/31/2025")
-amount_input = st.text_input("Enter the amount (e.g. 1,000,000)", "500,000")
-rate_input = st.text_input("Enter the annual rate (e.g. 0.0012)", "0.0012")
+amount_input = st.text_input("Enter the amount", "500,000")
+rate_input = st.text_input("Enter the annual rate", "0.0012")
 
 # Parse inputs
 amount = parse_number_with_commas(amount_input)
