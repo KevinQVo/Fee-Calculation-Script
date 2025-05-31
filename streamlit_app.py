@@ -27,8 +27,8 @@ st.set_page_config(page_title="    Fee Calculator", layout="centered")
 st.title("Fee Calculation Tool")
 
 # Input Fields
-supp_bill_input = st.text_input("Enter the Supplemental Bill Date (MM/DD/YYYY)", "03/04/2025")
-quarter_end_input = st.text_input("Enter the Quarter End Date (MM/DD/YYYY)", "03/31/2025")
+supp_bill_input = st.text_input("Enter the Supplemental Bill Date (MM/DD/YYYY)")
+quarter_end_input = st.text_input("Enter the Quarter End Date (MM/DD/YYYY)")
 amount_input = st.text_input("Enter the amount", "500,000")
 rate_input = st.text_input("Enter the annual rate", "0.0012")
 
