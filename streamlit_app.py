@@ -24,21 +24,13 @@ def parse_date(date_str):
 # --- Streamlit App ---
 
 st.set_page_config(page_title="Fee Calculator", layout="centered")
-st.title("📊 Fee Calculation Tool")
-
-st.markdown("""
-This tool calculates a **pro-rated annualized fee** based on:
-- A user-supplied **amount**
-- An **annual rate**
-- The number of days remaining in the quarter, based on MM/DD/YYYY inputs
-""")
+st.title("Fee Calculation Tool")
 
 # Input Fields
-amount_input = st.text_input("Enter the amount (e.g. 1,000,000)", "500,000")
-rate_input = st.text_input("Enter the annual rate (e.g. 0.0012)", "0.0012")
-
 supp_bill_input = st.text_input("Enter the Supplemental Bill Date (MM/DD/YYYY)", "03/04/2025")
 quarter_end_input = st.text_input("Enter the Quarter End Date (MM/DD/YYYY)", "03/31/2025")
+amount_input = st.text_input("Enter the amount (e.g. 1,000,000)", "500,000")
+rate_input = st.text_input("Enter the annual rate (e.g. 0.0012)", "0.0012")
 
 # Parse inputs
 amount = parse_number_with_commas(amount_input)
@@ -64,9 +56,4 @@ else:
     fee = calculate_annualized_fee(amount, rate, days_left)
 
     st.subheader("📈 Fee Summary")
-    st.write(f"**Amount**: ${amount:,.2f}")
-    st.write(f"**Annual Rate**: {rate:.6f}")
-    st.write(f"**Supplemental Bill Date**: {supp_bill_date.strftime('%m/%d/%Y')}")
-    st.write(f"**Quarter End Date**: {quarter_end_date.strftime('%m/%d/%Y')}")
-    st.write(f"**Days Left in Quarter**: {days_left}")
     st.success(f"**Calculated Fee**: ${fee:,.2f}")
