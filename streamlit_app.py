@@ -41,8 +41,11 @@ if amount is not None and rate is not None and supp_bill_date and quarter_end_da
     st.subheader("📈 Fee Summary")
     st.write(f"**Amount**: ${amount:,.2f}")
     st.write(f"**Annual Rate**: {rate:.6f}")
+    st.write(f"**Supplemental Bill Date**: {supp_bill_date.strftime('%m/%d/%Y')}")
+    st.write(f"**Quarter End Date**: {quarter_end_date.strftime('%m/%d/%Y')}")
     st.write(f"**Days Left in Quarter**: {days_left}")
     st.success(f"**Calculated Fee**: ${fee:,.2f}")
+
 else:
     st.error("Please make sure amount and rate are valid numbers.")
 
