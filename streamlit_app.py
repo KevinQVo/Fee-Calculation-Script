@@ -23,7 +23,7 @@ def parse_date(date_str):
 
 # --- Streamlit App ---
 
-st.set_page_config(page_title="Fee Calculator", layout="centered")
+st.set_page_config(page_title="    Fee Calculator", layout="centered")
 st.title("Fee Calculation Tool")
 
 # Input Fields
