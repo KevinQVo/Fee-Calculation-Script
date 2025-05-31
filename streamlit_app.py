@@ -58,3 +58,5 @@ else:
     st.subheader(" Fee Summary")
     st.write(f"**Days Left in Quarter**: {days_left}")
     st.success(f"**Calculated Fee**: ${fee:,.2f}")
+
+st.write("Author: Kevin Vo")
