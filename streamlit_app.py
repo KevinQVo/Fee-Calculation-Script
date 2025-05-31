@@ -25,12 +25,6 @@ def parse_date(date_str):
 st.set_page_config(page_title="Fee Calculator", layout="centered")
 st.title("📊 Fee Calculation Tool")
 
-st.markdown("""
-This tool calculates a **pro-rated annualized fee** based on:
-- A user-supplied **amount**
-- An **annual rate**
-- The number of days remaining in the quarter, based on MM/DD/YYYY inputs
-""")
 
 # Input Fields
 amount_input = st.text_input("Enter the amount (e.g. 1,000,000)", "500,000")
