@@ -16,23 +16,16 @@ def calculate_days_left(start_date, end_date):
 def calculate_annualized_fee(amount, rate, days, days_in_year=365):
     return amount * rate * (days / days_in_year)
 
-# --- Streamlit App ---
+st.title("Fee Calculation Tool")
 
-st.title("📊 Fee Calculation Tool")
-
-st.markdown("""
-This tool calculates a **pro-rated annualized fee** based on:
-- A user-supplied **amount**
-- An **annual rate**
-- The number of days remaining in the quarter, calculated from the bill date and quarter end date
-""")
 
 # Input Fields
-amount_input = st.text_input("Enter the amount (e.g. 1,000,000)", "500,000")
-rate_input = st.text_input("Enter the annual rate (e.g. 0.0012)", "0.0012")
 
 supp_bill_date = st.date_input("Supplemental Bill Date", datetime.today())
 quarter_end_date = st.date_input("Quarter End Date", datetime(2025, 3, 31))
+
+amount_input = st.text_input("Enter the amount", "500,000")
+rate_input = st.text_input("Enter the annual rate", "0.0012")
 
 # Parse and calculate
 amount = parse_number_with_commas(amount_input)
