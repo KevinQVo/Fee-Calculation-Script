@@ -97,7 +97,7 @@ else:
     credit_headers = [
         "IUD", "Approved", "Date", "Source", "Bus. Unit", "Port. ID",
         "Label", "Entity", "Currency", "Amount"
-    ]
+    ] + [f"BLANK_{i+1}" for i in range(9)]  # Add 9 blank columns
 
     credit_values = [
         "I", "",  # IUD, Approved
@@ -105,7 +105,7 @@ else:
         "Billing", "PI", port_id_input,
         "Manual Fee Credit", "CASH", "USD",
         f"{fee:,.2f}"
-    ]
+    ] + [""] * 9  # 9 blank values
 
     credit_df = {header: [value] for header, value in zip(credit_headers, credit_values)}
     st.dataframe(credit_df, use_container_width=True)
