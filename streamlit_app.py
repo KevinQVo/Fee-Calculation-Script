@@ -69,21 +69,18 @@ else:
 
     txn_type = "CW Minus 1" if amount < 0 else "CD"
 
-    # Updated UDA Headers with BLANK
     uda_headers = [
         "IUD", "Approved", "Exclude", "COM", "BLANK", "Date", "Source", "Unit", "Port ID",
-        "Level", "Entity", "Txn Type", "Txn Count", "Local Curr", "Local Amt"
+        "Level", "BLANK", "Entity", "Txn Type", "Txn Count", "Local Curr", "Local Amt"
     ]
 
-    # Corresponding values
     uda_values = [
         "I", "1", exclude_input, com_input, "",
         supp_bill_date.strftime("%-m/%-d/%Y"),
         "Billing", "PI", port_id_input,
-        "Asset", "Cash", txn_type, "1", "USD",
+        "Asset", "", "Cash", txn_type, "1", "USD",
         f"{abs(amount):,.2f}"
     ]
 
-    # Display UDA row
     uda_df = {header: [value] for header, value in zip(uda_headers, uda_values)}
     st.dataframe(uda_df, use_container_width=True)
