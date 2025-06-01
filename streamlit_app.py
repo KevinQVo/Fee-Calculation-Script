@@ -26,14 +26,14 @@ st.set_page_config(page_title="Fee Calculator", layout="centered")
 st.title("Fee Calculation Tool")
 
 # --- Input Fields ---
-supp_bill_input = st.text_input("Enter the Supplemental Bill Date (MM/DD/YYYY)", "03/04/2025")
-quarter_end_input = st.text_input("Enter the Quarter End Date (MM/DD/YYYY)", "03/31/2025")
-amount_input = st.text_input("Enter the amount (e.g. 1,000,000)", "500,000")
-rate_input = st.text_input("Enter the annual rate (e.g. 0.0012)", "0.0012")
+supp_bill_input = st.text_input("Enter the Supplemental Bill Date (MM/DD/YYYY)")
+quarter_end_input = st.text_input("Enter the Quarter End Date (MM/DD/YYYY)", "06/30/2025")
+amount_input = st.text_input("Enter the amount (e.g. 1,000,000)")
+rate_input = st.text_input("Enter the annual rate (e.g. 0.0012)")
 
 # --- UDA Optional Fields ---
 st.markdown("### 🔧 UDA Fields (Optional Overrides)")
-port_id_input = st.text_input("Port ID", "50202149")
+port_id_input = st.text_input("Custodian #")
 exclude_input = st.text_input("Exclude", "")
 com_input = st.text_input("COM", "")
 
@@ -51,7 +51,7 @@ elif rate is None:
 elif not supp_bill_date or not quarter_end_date:
     st.error("Please enter valid dates in MM/DD/YYYY format.")
 elif supp_bill_date > quarter_end_date:
-    st.error("❌ Supplemental Bill Date must be before Quarter End Date.")
+    st.error("Supplemental Bill Date must be before Quarter End Date.")
 else:
     # --- Calculations ---
     days_left = calculate_days_left(supp_bill_date, quarter_end_date)
@@ -71,9 +71,8 @@ else:
         f"{abs(amount):,.2f}"
     ]
 
-    st.markdown("### 📋 Copy UDA Row")
+    st.markdown("### Transaction CashFlow Quick Entry")
     st.code("\t".join(str(v) for v in uda_values), language="text")
-    st.caption("Copy this row and paste into your UDA upload template.")
 
     # --- Copy Manual Fee Credit Row ---
     comment_note = (
@@ -90,6 +89,6 @@ else:
         f"{fee:,.2f}"
     ] + [""] * 9 + [comment_note]
 
-    st.markdown("### 📋 Copy Fee Credit Row")
+    st.markdown("### UDA Quick Entry")
     st.code("\t".join(str(v) for v in credit_values), language="text")
-    st.caption("Copy this row and paste into the Manual Fee Credit upload template.")
+  
