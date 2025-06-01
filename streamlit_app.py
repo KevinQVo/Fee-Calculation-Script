@@ -27,10 +27,10 @@ st.set_page_config(page_title="    Fee Calculator", layout="centered")
 st.title("Fee Calculation Tool")
 
 # Input Fields
-supp_bill_input = st.text_input("Enter the Supplemental Bill Date (MM/DD/YYYY)")
-quarter_end_input = st.text_input("Enter the Quarter End Date (MM/DD/YYYY)", "06/30/2025")
-amount_input = st.text_input("Enter the amount")
-rate_input = st.text_input("Enter the annual rate")
+supp_bill_input = st.text_input("Enter the Supplemental Bill Date (MM/DD/YYYY)", "03/04/2025")
+quarter_end_input = st.text_input("Enter the Quarter End Date (MM/DD/YYYY)", "03/31/2025")
+amount_input = st.text_input("Enter the amount (e.g. 1,000,000)", "500,000")
+rate_input = st.text_input("Enter the annual rate (e.g. 0.0012)", "0.0012")
 
 # Parse inputs
 amount = parse_number_with_commas(amount_input)
@@ -59,4 +59,23 @@ else:
     st.write(f"**Days Left in Quarter**: {days_left}")
     st.success(f"**Calculated Fee**: ${fee:,.2f}")
 
-st.write("Author: Kevin Vo")
+    # --- UDA Tool Output ---
+    st.subheader("📄 UDA Tool Output")
+
+    txn_type = "CW Minus 1" if amount < 0 else "CD"
+
+    uda_row = {
+        "IUD": "I",
+        "APPROVED": "1",
+        "DATE": supp_bill_date.strftime("%-m/%-d/%Y"),
+        "SOURCE": "Billing",
+        "BUSINESS UNIT": "PI",
+        "LEVEL": "Asset",
+        "ENTITY": "Cash",
+        "TXN TYPE": txn_type,
+        "TXN COUNT": "1",
+        "LOCAL CURRENCY": "USD",
+        "LOCAL AMOUNT": f"{fee:,.2f}"
+    }
+
+    st.table(uda_row)
