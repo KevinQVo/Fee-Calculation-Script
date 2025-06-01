@@ -82,12 +82,36 @@ else:
         f"{abs(amount):,.2f}"
     ]
 
-    # Display UDA row
     uda_df = {header: [value] for header, value in zip(uda_headers, uda_values)}
     st.dataframe(uda_df, use_container_width=True)
 
-    # --- Copy to Clipboard (code box) ---
-    st.markdown("### 📋 Copy to Clipboard")
+    # Copy UDA tab-delimited string
+    st.markdown("### 📋 Copy UDA Row")
     row_string = "\t".join(str(v) for v in uda_values)
     st.code(row_string, language="text")
-    st.caption("Select and copy the line above. Tab formatting is preserved for Excel or UDA systems.")
+    st.caption("Copy this row and paste into your UDA upload template.")
+
+    # --- Manual Fee Credit Output ---
+    st.subheader("📄 Manual Fee Credit Output")
+
+    credit_headers = [
+        "IUD", "Approved", "Date", "Source", "Bus. Unit", "Port. ID",
+        "Label", "Entity", "Currency", "Amount"
+    ]
+
+    credit_values = [
+        "I", "",  # IUD, Approved
+        quarter_end_date.strftime("%-m/%-d/%Y"),
+        "Billing", "PI", port_id_input,
+        "Manual Fee Credit", "CASH", "USD",
+        f"{fee:,.2f}"
+    ]
+
+    credit_df = {header: [value] for header, value in zip(credit_headers, credit_values)}
+    st.dataframe(credit_df, use_container_width=True)
+
+    credit_string = "\t".join(str(v) for v in credit_values)
+
+    st.markdown("### 📋 Copy Fee Credit Row")
+    st.code(credit_string, language="text")
+    st.caption("Copy this row and paste into the Manual Fee Credit upload template.")
