@@ -65,7 +65,7 @@ else:
     txn_type = "CW Minus 1" if amount < 0 else "CD"
     uda_values = [
         "I", "1", exclude_input, com_input, "",
-        supp_bill_date.strftime("%-m/%-d/%Y"),
+        supp_bill_date.strftime("%m/%d/%Y"),
         "Billing", "PI", port_id_input,
         "Asset", "", "Cash", txn_type, "1", "USD",
         f"{abs(amount):,.2f}"
@@ -83,7 +83,7 @@ else:
 
     credit_values = [
         "I", "",
-        quarter_end_date.strftime("%-m/%-d/%Y"),
+        quarter_end_date.strftime("%m/%d/%Y"),
         "Billing", "PI", port_id_input,
         "Manual Fee Credit", "CASH", "USD",
         f"{fee:,.2f}"
