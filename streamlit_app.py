@@ -70,21 +70,22 @@ else:
 
     txn_type = "CW Minus 1" if amount < 0 else "CD"
 
-    # Excel-style column headers (row 2)
+    # Excel-style column headers
     uda_headers = [
         "IUD", "Approved", "Exclude", "COM", "Date", "Source", "Unit", "Port ID",
         "Level", "Entity", "Txn Type", "Txn Count", "Local Curr", "Local Amt", "Port. Curr"
     ]
 
-    # Corresponding values (row 3)
+    # Row of values
     uda_values = [
         "I", "1", exclude_input, com_input,
         supp_bill_date.strftime("%-m/%-d/%Y"),
         "Billing", "PI", port_id_input,
         "Asset", "Cash", txn_type, "1", "USD",
-        f"{fee:,.2f}", "0"
+        f"{abs(amount):,.2f}",  # ✅ PRINCIPAL (input amount)
+        "0"
     ]
 
-    # Convert to horizontal table format
+    # Convert to horizontal table
     uda_df = {header: [value] for header, value in zip(uda_headers, uda_values)}
     st.dataframe(uda_df, use_container_width=True)
