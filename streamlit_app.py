@@ -70,8 +70,8 @@ else:
     txn_type = "CW Minus 1" if amount < 0 else "CD"
 
     uda_headers = [
-        "IUD", "Approved", "Exclude", "COM", "BLANK", "Date", "Source", "Unit", "Port ID",
-        "Level", "BLANK2", "Entity", "Txn Type", "Txn Count", "Local Curr", "Local Amt"
+        "IUD", "Approved", "Exclude", "COM", "BLANK_1", "Date", "Source", "Unit", "Port ID",
+        "Level", "BLANK_2", "Entity", "Txn Type", "Txn Count", "Local Curr", "Local Amt"
     ]
 
     uda_values = [
@@ -82,5 +82,14 @@ else:
         f"{abs(amount):,.2f}"
     ]
 
+    # Display UDA as horizontal table
     uda_df = {header: [value] for header, value in zip(uda_headers, uda_values)}
     st.dataframe(uda_df, use_container_width=True)
+
+    # --- Copy to Clipboard Section ---
+    st.subheader("📋 Copy Row to Clipboard")
+
+    row_string = "\t".join(str(v) for v in uda_values)
+
+    st.text_area("Copy the UDA row below (headers not included)", value=row_string, height=100)
+    st.caption("Paste directly into Excel or your UDA upload template.")
