@@ -33,8 +33,8 @@ rate_input = st.text_input("Enter the annual rate (e.g. 0.0012)", "0.0007")
 port_id_input = st.text_input("Custodian #")  # Moved up here
 
 # --- Hidden Logic Fields (Exclude + COM still used) ---
-exclude_input = st.text_input("Exclude", "")
-com_input = st.text_input("COM", "")
+exclude_input = ""
+com_input = ""
 
 # --- Input Parsing ---
 amount = parse_number_with_commas(amount_input)
