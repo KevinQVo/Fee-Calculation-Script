@@ -32,6 +32,12 @@ quarter_end_input = st.text_input("Enter the Quarter End Date (MM/DD/YYYY)", "03
 amount_input = st.text_input("Enter the amount (e.g. 1,000,000)", "500,000")
 rate_input = st.text_input("Enter the annual rate (e.g. 0.0012)", "0.0012")
 
+# Optional editable fields for UDA
+st.markdown("### 🔧 UDA Fields (Optional Overrides)")
+port_id_input = st.text_input("Port ID", "50202149")
+exclude_input = st.text_input("Exclude", "")
+com_input = st.text_input("COM", "")
+
 # Parse inputs
 amount = parse_number_with_commas(amount_input)
 try:
@@ -55,7 +61,7 @@ else:
     days_left = calculate_days_left(supp_bill_date, quarter_end_date)
     fee = calculate_annualized_fee(amount, rate, days_left)
 
-    st.subheader(" Fee Summary")
+    st.subheader("📈 Fee Summary")
     st.write(f"**Days Left in Quarter**: {days_left}")
     st.success(f"**Calculated Fee**: ${fee:,.2f}")
 
@@ -64,18 +70,21 @@ else:
 
     txn_type = "CW Minus 1" if amount < 0 else "CD"
 
-    uda_row = {
-        "IUD": "I",
-        "APPROVED": "1",
-        "DATE": supp_bill_date.strftime("%-m/%-d/%Y"),
-        "SOURCE": "Billing",
-        "BUSINESS UNIT": "PI",
-        "LEVEL": "Asset",
-        "ENTITY": "Cash",
-        "TXN TYPE": txn_type,
-        "TXN COUNT": "1",
-        "LOCAL CURRENCY": "USD",
-        "LOCAL AMOUNT": f"{fee:,.2f}"
-    }
+    # Excel-style column headers (row 2)
+    uda_headers = [
+        "IUD", "Approved", "Exclude", "COM", "Date", "Source", "Unit", "Port ID",
+        "Level", "Entity", "Txn Type", "Txn Count", "Local Curr", "Local Amt", "Port. Curr"
+    ]
 
-    st.table(uda_row)
+    # Corresponding values (row 3)
+    uda_values = [
+        "I", "1", exclude_input, com_input,
+        supp_bill_date.strftime("%-m/%-d/%Y"),
+        "Billing", "PI", port_id_input,
+        "Asset", "Cash", txn_type, "1", "USD",
+        f"{fee:,.2f}", "0"
+    ]
+
+    # Convert to horizontal table format
+    uda_df = {header: [value] for header, value in zip(uda_headers, uda_values)}
+    st.dataframe(uda_df, use_container_width=True)
