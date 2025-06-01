@@ -91,4 +91,4 @@ else:
     st.markdown("### UDA Quick Entry")
     st.code("\t".join(str(v) for v in credit_values), language="text")
 
-    st.caption("Author: Kevin Vo")
+    st.text("Author: Kevin Vo")
