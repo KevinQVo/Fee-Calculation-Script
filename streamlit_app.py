@@ -8,7 +8,6 @@ def parse_number_with_commas(number_str):
         return None
 
 def calculate_days_left(start_date, end_date):
-    # Inclusive of start and end date
     delta = (end_date - start_date).days + 1
     return max(delta, 0)
 
@@ -70,21 +69,21 @@ else:
 
     txn_type = "CW Minus 1" if amount < 0 else "CD"
 
-    # UDA Headers (with Exclude and COM added back)
+    # Updated UDA Headers with BLANK
     uda_headers = [
-        "IUD", "Approved", "Exclude", "COM", "Date", "Source", "Unit", "Port ID",
+        "IUD", "Approved", "Exclude", "COM", "BLANK", "Date", "Source", "Unit", "Port ID",
         "Level", "Entity", "Txn Type", "Txn Count", "Local Curr", "Local Amt"
     ]
 
-    # Values aligned with headers
+    # Corresponding values
     uda_values = [
-        "I", "1", exclude_input, com_input,
+        "I", "1", exclude_input, com_input, "",
         supp_bill_date.strftime("%-m/%-d/%Y"),
         "Billing", "PI", port_id_input,
         "Asset", "Cash", txn_type, "1", "USD",
         f"{abs(amount):,.2f}"
     ]
 
-    # Display horizontal UDA row
+    # Display UDA row
     uda_df = {header: [value] for header, value in zip(uda_headers, uda_values)}
     st.dataframe(uda_df, use_container_width=True)
