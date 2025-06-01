@@ -32,7 +32,7 @@ amount_input = st.text_input("Enter the amount (e.g. 1,000,000)", "500,000")
 rate_input = st.text_input("Enter the annual rate (e.g. 0.0012)", "0.0012")
 
 # --- UDA Optional Fields ---
-st.markdown("### \U0001F527 UDA Fields (Optional Overrides)")
+st.markdown("### 🔧 UDA Fields (Optional Overrides)")
 port_id_input = st.text_input("Port ID", "50202149")
 exclude_input = st.text_input("Exclude", "")
 com_input = st.text_input("COM", "")
@@ -57,13 +57,12 @@ else:
     days_left = calculate_days_left(supp_bill_date, quarter_end_date)
     fee = calculate_annualized_fee(amount, rate, days_left)
 
-    st.subheader("\U0001F4C8 Fee Summary")
+    st.subheader("📈 Fee Summary")
     st.write(f"**Days Left in Quarter**: {days_left}")
     st.success(f"**Calculated Fee**: ${fee:,.2f}")
 
-    # --- Copy UDA Tool Row ---
+    # --- Copy UDA Row ---
     txn_type = "CW Minus 1" if amount < 0 else "CD"
-
     uda_values = [
         "I", "1", exclude_input, com_input, "",
         supp_bill_date.strftime("%-m/%-d/%Y"),
@@ -72,7 +71,7 @@ else:
         f"{abs(amount):,.2f}"
     ]
 
-    st.markdown("### \U0001F4CB Copy UDA Row")
+    st.markdown("### 📋 Copy UDA Row")
     st.code("\t".join(str(v) for v in uda_values), language="text")
     st.caption("Copy this row and paste into your UDA upload template.")
 
@@ -91,6 +90,6 @@ else:
         f"{fee:,.2f}"
     ] + [""] * 9 + [comment_note]
 
-    st.markdown("### \U0001F4CB Copy Fee Credit Row")
+    st.markdown("### 📋 Copy Fee Credit Row")
     st.code("\t".join(str(v) for v in credit_values), language="text")
     st.caption("Copy this row and paste into the Manual Fee Credit upload template.")
