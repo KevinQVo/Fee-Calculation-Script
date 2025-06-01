@@ -82,15 +82,12 @@ else:
         f"{abs(amount):,.2f}"
     ]
 
-    # Display UDA row as table
+    # Display UDA row
     uda_df = {header: [value] for header, value in zip(uda_headers, uda_values)}
     st.dataframe(uda_df, use_container_width=True)
 
-    # --- Copy to Clipboard Button ---
+    # --- Copy to Clipboard (code box) ---
+    st.markdown("### 📋 Copy to Clipboard")
     row_string = "\t".join(str(v) for v in uda_values)
-
-    st.markdown("""
-    <h4>📋 Copy to Clipboard</h4>
-    <button onclick="navigator.clipboard.writeText(document.getElementById('uda-row').value)">📄 Copy UDA Row</button>
-    <textarea id="uda-row" style="opacity:0;height:1px;">{}</textarea>
-    """.format(row_string), unsafe_allow_html=True)
+    st.code(row_string, language="text")
+    st.caption("Select and copy the line above. Tab formatting is preserved for Excel or UDA systems.")
