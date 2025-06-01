@@ -76,9 +76,9 @@ else:
 
     # --- Copy Manual Fee Credit Row ---
     comment_note = (
-        f"Manual Credit due to a withdrawal of ${abs(amount):,.2f} on {supp_bill_date.strftime('%-m/%-d/%Y')}"
+        f"Manual Credit due to a withdrawal of ${abs(amount):,.2f} on {supp_bill_date.strftime('%m/%d/%Y')}"
         if amount < 0 else
-        f"Manual fee due to a deposit of ${amount:,.2f} on {supp_bill_date.strftime('%-m/%-d/%Y')}"
+        f"Manual fee due to a deposit of ${amount:,.2f} on {supp_bill_date.strftime('%m/%d/%Y')}"
     )
 
     credit_values = [
