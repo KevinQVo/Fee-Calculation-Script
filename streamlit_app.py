@@ -35,6 +35,8 @@ rate_input = st.text_input("Enter the annual rate (e.g. 0.0012)", "0.0012")
 # Optional editable fields for UDA
 st.markdown("### 🔧 UDA Fields (Optional Overrides)")
 port_id_input = st.text_input("Port ID", "50202149")
+exclude_input = st.text_input("Exclude", "")
+com_input = st.text_input("COM", "")
 
 # Parse inputs
 amount = parse_number_with_commas(amount_input)
@@ -68,21 +70,21 @@ else:
 
     txn_type = "CW Minus 1" if amount < 0 else "CD"
 
-    # Updated UDA Headers (cleaned)
+    # UDA Headers (with Exclude and COM added back)
     uda_headers = [
-        "IUD", "Approved", "Date", "Source", "Unit", "Port ID",
+        "IUD", "Approved", "Exclude", "COM", "Date", "Source", "Unit", "Port ID",
         "Level", "Entity", "Txn Type", "Txn Count", "Local Curr", "Local Amt"
     ]
 
-    # Updated Values
+    # Values aligned with headers
     uda_values = [
-        "I", "1",
+        "I", "1", exclude_input, com_input,
         supp_bill_date.strftime("%-m/%-d/%Y"),
         "Billing", "PI", port_id_input,
         "Asset", "Cash", txn_type, "1", "USD",
         f"{abs(amount):,.2f}"
     ]
 
-    # Display as horizontal table
+    # Display horizontal UDA row
     uda_df = {header: [value] for header, value in zip(uda_headers, uda_values)}
     st.dataframe(uda_df, use_container_width=True)
