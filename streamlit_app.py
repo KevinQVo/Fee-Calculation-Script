@@ -71,7 +71,7 @@ else:
 
     uda_headers = [
         "IUD", "Approved", "Exclude", "COM", "BLANK", "Date", "Source", "Unit", "Port ID",
-        "Level", "BLANK", "Entity", "Txn Type", "Txn Count", "Local Curr", "Local Amt"
+        "Level", "BLANK2", "Entity", "Txn Type", "Txn Count", "Local Curr", "Local Amt"
     ]
 
     uda_values = [
