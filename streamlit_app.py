@@ -29,7 +29,7 @@ st.title("Fee Calculation Tool")
 supp_bill_input = st.text_input("Enter the Supplemental Bill Date (MM/DD/YYYY)")
 quarter_end_input = st.text_input("Enter the Quarter End Date (MM/DD/YYYY)", "06/30/2025")
 amount_input = st.text_input("Enter the amount")
-rate_input = st.text_input("Enter the annual rate")
+rate_input = st.text_input("Enter the quarterly rate")
 port_id_input = st.text_input("Custodian #")  
 
 # Logic Fields
@@ -56,7 +56,7 @@ else:
     days_left = calculate_days_left(supp_bill_date, quarter_end_date)
     fee = calculate_annualized_fee(amount, rate, days_left)
 
-    st.subheader("📈 Fee Summary")
+    st.subheader("Fee Summary")
     st.write(f"**Days Left in Quarter**: {days_left}")
     st.success(f"**Calculated Fee**: ${fee:,.2f}")
 
