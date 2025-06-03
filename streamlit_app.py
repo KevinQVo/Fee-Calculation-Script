@@ -127,7 +127,7 @@ else:
         "UDA": comment_note
     }
 
-    if st.button("➕ Add to Excel Table"):
+    if st.button("➕ Add to Table"):
         st.session_state.excel_rows.append(new_excel_row)
 
 # --- Display Excel Table ---
