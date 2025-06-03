@@ -2,11 +2,11 @@ import streamlit as st
 import pandas as pd
 from datetime import datetime
 
-# --- Initialize session state for storing rows ---
+# Initialize session state for storing rows
 if "excel_rows" not in st.session_state:
     st.session_state.excel_rows = []
 
-# --- Helper Functions ---
+# Helper Functions
 def parse_number_with_commas(number_str):
     try:
         return float(str(number_str).replace(',', ''))
@@ -26,28 +26,28 @@ def parse_date(date_str):
     except ValueError:
         return None
 
-# --- Streamlit App Setup ---
+# Streamlit App Setup
 st.set_page_config(page_title="Fee Calculator", layout="centered")
 st.title("Fee Calculation Tool")
 
-# --- Input Fields ---
+# Input Fields
 supp_bill_input = st.text_input("Enter the Supplemental Bill Date (MM/DD/YYYY)", "05/03/2025")
 quarter_end_input = st.text_input("Enter the Quarter End Date (MM/DD/YYYY)", "06/30/2025")
 amount_input = st.text_input("Enter the amount (e.g. 1,000,000)", "100000")
-rate_input = st.text_input("Enter the annual rate (e.g. 0.0012)", "0.0007")
+rate_input = st.text_input("Enter the Quarterly rate (e.g. 0.0012)", "0.0007")
 port_id_input = st.text_input("Custodian #")
 
-# --- Hidden Logic Fields ---
+# Hidden Logic Fields
 exclude_input = ""
 com_input = ""
 
-# --- Input Parsing ---
+# Input Parsing
 amount = parse_number_with_commas(amount_input)
 rate = float(rate_input) if rate_input.replace('.', '', 1).isdigit() else None
 supp_bill_date = parse_date(supp_bill_input)
 quarter_end_date = parse_date(quarter_end_input)
 
-# --- Validation ---
+# Validation
 if amount is None:
     st.error("Please enter a valid amount.")
 elif rate is None:
@@ -57,7 +57,7 @@ elif not supp_bill_date or not quarter_end_date:
 elif supp_bill_date > quarter_end_date:
     st.error("Supplemental Bill Date must be before Quarter End Date.")
 else:
-    # --- Calculations ---
+    # Calculations 
     days_left = calculate_days_left(supp_bill_date, quarter_end_date)
     fee = calculate_annualized_fee(amount, rate, days_left)
 
@@ -65,7 +65,7 @@ else:
     st.write(f"**Days Left in Quarter**: {days_left}")
     st.success(f"**Calculated Fee**: ${fee:,.2f}")
 
-    # --- Copy UDA Row ---
+    # Copy UDA Row
     txn_type = "CW Minus 1" if amount < 0 else "CD"
     uda_values = [
         "I", "1", exclude_input, com_input, "",
@@ -78,7 +78,7 @@ else:
     st.markdown("### Transaction CashFlow Quick Entry")
     st.code("\t".join(str(v) for v in uda_values), language="text")
 
-    # --- Copy Manual Fee Credit Row ---
+    # Copy Manual Fee Credit Row
     comment_note = (
         f"Manual Credit due to a withdrawal of ${abs(amount):,.2f} on {supp_bill_date.strftime('%m/%d/%Y')}"
         if amount < 0 else
@@ -96,7 +96,7 @@ else:
     st.markdown("### UDA Quick Entry")
     st.code("\t".join(str(v) for v in credit_values), language="text")
 
-    # --- Additional Input Fields ---
+    # Additional Input Fields
     st.markdown("### Additional Information")
     
     request_date_input = st.text_input("Request Date")
@@ -105,7 +105,7 @@ else:
     processor_input = st.text_input("Processor")
     auditor_input = st.text_input("Auditor")
 
-    # --- Excel Table Row ---
+    # Excel Table Row
     deposit_type = "Deposit" if amount > 0 else "Withdrawal"
     fee_or_credit = "Fee" if amount > 0 else "Credit"
     today = datetime.now().strftime("%m/%d/%Y")
@@ -130,7 +130,7 @@ else:
     if st.button("➕ Add to Table"):
         st.session_state.excel_rows.append(new_excel_row)
 
-# --- Display Excel Table ---
+# Display Excel Table
 if st.session_state.excel_rows:
     st.markdown("### Log Tracker")
 
@@ -139,7 +139,7 @@ if st.session_state.excel_rows:
     df.index = range(1, len(df) + 1)
     st.dataframe(df, use_container_width=True)
 
-    # --- Delete Row Section ---
+    # Delete Row Section
     st.markdown("### Error?")
     row_options = [f"Row {i+1}" for i in range(len(st.session_state.excel_rows))]
     row_to_delete = st.selectbox("Select a row to delete:", row_options)
@@ -149,7 +149,7 @@ if st.session_state.excel_rows:
         st.session_state.excel_rows.pop(index)
         st.rerun()
 
-    # --- Clear All Rows ---
+    # Clear All Rows
     if st.button("Clear All Rows"):
         st.session_state.excel_rows = []
         st.rerun()
