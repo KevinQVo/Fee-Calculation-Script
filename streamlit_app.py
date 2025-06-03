@@ -134,7 +134,8 @@ if st.session_state.excel_rows:
 
     df = pd.DataFrame(st.session_state.excel_rows)
     # df.index = [''] * len(df)  # hide row numbers
-    st.dataframe(df.reset_index(drop=False).rename(lambda x: x + 1), use_container_width=True)
+    df.index = range(1, len(df) + 1)
+    st.dataframe(df, use_container_width=True)
 
     # --- Delete Row Section ---
     st.markdown("### 🗑️ Delete a Row")
