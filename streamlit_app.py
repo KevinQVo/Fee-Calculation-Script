@@ -130,7 +130,7 @@ if st.session_state.excel_rows:
         st.json(row)
         if st.button(f"❌ Delete Row {i+1}", key=f"delete_{i}"):
             st.session_state.excel_rows.pop(i)
-            st.experimental_rerun()
+            st.rerun()
 
     df = pd.DataFrame(st.session_state.excel_rows)
     df.index = [''] * len(df)  # hide row numbers
