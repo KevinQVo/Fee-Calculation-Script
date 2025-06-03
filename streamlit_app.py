@@ -116,8 +116,7 @@ else:
         "UDA": [comment_note]
     }
 
-    df_excel = pd.DataFrame(excel_data)
-    df_excel.index = ['']
+    df_excel = pd.DataFrame([excel_data])
     st.dataframe(df_excel, use_container_width=True)
 
     st.text("Author: Kevin Vo")
