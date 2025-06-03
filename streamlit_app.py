@@ -125,6 +125,10 @@ else:
 if st.session_state.excel_rows:
     st.markdown("### 🗑️ Delete a Row")
 
+    df = pd.DataFrame(st.session_state.excel_rows)
+    df.index = [''] * len(df)  # hide row numbers
+    st.dataframe(df, use_container_width=True)
+
     row_options = [f"Row {i+1}" for i in range(len(st.session_state.excel_rows))]
     row_to_delete = st.selectbox("Select a row to delete:", row_options)
 
@@ -133,9 +137,6 @@ if st.session_state.excel_rows:
         st.session_state.excel_rows.pop(index)
         st.rerun()
 
-    df = pd.DataFrame(st.session_state.excel_rows)
-    df.index = [''] * len(df)  # hide row numbers
-    st.dataframe(df, use_container_width=True)
 
 st.markdown("---")
 st.markdown("**Author: Kevin Vo**")
