@@ -130,7 +130,7 @@ else:
 
 # --- Display Excel Table ---
 if st.session_state.excel_rows:
-    st.markdown("### \U0001F4C4 Excel Table (All Entries)")
+    st.markdown("### Log Tracker")
 
     df = pd.DataFrame(st.session_state.excel_rows)
     # df.index = [''] * len(df)  # hide row numbers
@@ -138,7 +138,7 @@ if st.session_state.excel_rows:
     st.dataframe(df, use_container_width=True)
 
     # --- Delete Row Section ---
-    st.markdown("### Delete a Row")
+    st.markdown("### Error?")
     row_options = [f"Row {i+1}" for i in range(len(st.session_state.excel_rows))]
     row_to_delete = st.selectbox("Select a row to delete:", row_options)
 
