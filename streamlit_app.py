@@ -122,6 +122,6 @@ else:
     
     #Excel Copy to Clipboard
     excel_string = "\t".join(str(excel_data[key][0]) for key in df_excel.columns)
-    st.code(excel_string, langugue="text")
+    st.code(excel_string, language="text")
 
     st.text("Author: Kevin Vo")
