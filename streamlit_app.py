@@ -61,7 +61,7 @@ else:
     days_left = calculate_days_left(supp_bill_date, quarter_end_date)
     fee = calculate_annualized_fee(amount, rate, days_left)
 
-    st.subheader("📈 Fee Summary")
+    st.subheader("\U0001F4C8 Fee Summary")
     st.write(f"**Days Left in Quarter**: {days_left}")
     st.success(f"**Calculated Fee**: ${fee:,.2f}")
 
@@ -74,6 +74,7 @@ else:
         "Asset", "", "Cash", txn_type, "1", "USD",
         f"{abs(amount):,.2f}"
     ]
+
     st.markdown("### Transaction CashFlow Quick Entry")
     st.code("\t".join(str(v) for v in uda_values), language="text")
 
@@ -122,20 +123,26 @@ else:
 
 # --- Display Excel Table ---
 if st.session_state.excel_rows:
-    st.markdown("### 📄 Excel Table (All Entries)")
+    st.markdown("### \U0001F4C4 Excel Table (All Entries)")
+
     df = pd.DataFrame(st.session_state.excel_rows)
     df.index = [''] * len(df)  # hide row numbers
     st.dataframe(df, use_container_width=True)
 
-st.markdown("---")
-st.markdown("**Author: Kevin Vo**")
-
-# --- Delete Row Section ---
-if st.session_state.excel_rows:
+    # --- Delete Row Section ---
     st.markdown("### 🗑️ Delete a Row")
     row_options = [f"Row {i+1}" for i in range(len(st.session_state.excel_rows))]
-    row_to_delete = st.selectbox("Select a row to delete:", row_options, key="delete_select")
+    row_to_delete = st.selectbox("Select a row to delete:", row_options)
+
     if st.button("❌ Delete Selected Row"):
         index = row_options.index(row_to_delete)
         st.session_state.excel_rows.pop(index)
         st.rerun()
+
+    # --- Clear All Rows ---
+    if st.button("🧹 Clear All Rows"):
+        st.session_state.excel_rows = []
+        st.rerun()
+
+st.markdown("---")
+st.markdown("**Author: Kevin Vo**")
