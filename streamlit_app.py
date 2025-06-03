@@ -1,8 +1,12 @@
 import streamlit as st
-from datetime import datetime
 import pandas as pd
+from datetime import datetime
 
-# Functions
+# --- Initialize session state for storing rows ---
+if "excel_rows" not in st.session_state:
+    st.session_state.excel_rows = []
+
+# --- Helper Functions ---
 def parse_number_with_commas(number_str):
     try:
         return float(str(number_str).replace(',', ''))
@@ -22,28 +26,28 @@ def parse_date(date_str):
     except ValueError:
         return None
 
-# Streamlit App Setup
+# --- Streamlit App Setup ---
 st.set_page_config(page_title="Fee Calculator", layout="centered")
 st.title("Fee Calculation Tool")
 
-# Input Fields
-supp_bill_input = st.text_input("Enter the Supplemental Bill Date (MM/DD/YYYY)")
+# --- Input Fields ---
+supp_bill_input = st.text_input("Enter the Supplemental Bill Date (MM/DD/YYYY)", "05/03/2025")
 quarter_end_input = st.text_input("Enter the Quarter End Date (MM/DD/YYYY)", "06/30/2025")
-amount_input = st.text_input("Enter the amount")
-rate_input = st.text_input("Enter the quarterly rate")
-port_id_input = st.text_input("Custodian #")  
+amount_input = st.text_input("Enter the amount (e.g. 1,000,000)", "100000")
+rate_input = st.text_input("Enter the annual rate (e.g. 0.0012)", "0.0007")
+port_id_input = st.text_input("Custodian #")
 
-# Logic Fields
+# --- Hidden Logic Fields ---
 exclude_input = ""
 com_input = ""
 
-# Input Parsing
+# --- Input Parsing ---
 amount = parse_number_with_commas(amount_input)
 rate = float(rate_input) if rate_input.replace('.', '', 1).isdigit() else None
 supp_bill_date = parse_date(supp_bill_input)
 quarter_end_date = parse_date(quarter_end_input)
 
-# Validation
+# --- Validation ---
 if amount is None:
     st.error("Please enter a valid amount.")
 elif rate is None:
@@ -53,15 +57,15 @@ elif not supp_bill_date or not quarter_end_date:
 elif supp_bill_date > quarter_end_date:
     st.error("Supplemental Bill Date must be before Quarter End Date.")
 else:
-    # Calculations
+    # --- Calculations ---
     days_left = calculate_days_left(supp_bill_date, quarter_end_date)
     fee = calculate_annualized_fee(amount, rate, days_left)
 
-    st.subheader("Fee Summary")
+    st.subheader("\U0001F4C8 Fee Summary")
     st.write(f"**Days Left in Quarter**: {days_left}")
     st.success(f"**Calculated Fee**: ${fee:,.2f}")
 
-    # Quick Entry Transaction Cashflow 
+    # --- Copy UDA Row ---
     txn_type = "CW Minus 1" if amount < 0 else "CD"
     uda_values = [
         "I", "1", exclude_input, com_input, "",
@@ -74,11 +78,11 @@ else:
     st.markdown("### Transaction CashFlow Quick Entry")
     st.code("\t".join(str(v) for v in uda_values), language="text")
 
-    # UDA Quick Entry 
+    # --- Copy Manual Fee Credit Row ---
     comment_note = (
         f"Manual Credit due to a withdrawal of ${abs(amount):,.2f} on {supp_bill_date.strftime('%m/%d/%Y')}"
         if amount < 0 else
-        f"Manual Fee due to a deposit of ${amount:,.2f} on {supp_bill_date.strftime('%m/%d/%Y')}"
+        f"Manual fee due to a deposit of ${amount:,.2f} on {supp_bill_date.strftime('%m/%d/%Y')}"
     )
 
     credit_values = [
@@ -87,41 +91,42 @@ else:
         "Billing", "PI", port_id_input,
         "Manual Fee Credit", "CASH", "USD",
         f"{fee:,.2f}"
-    ] + [""] * 9 + [comment_note]
+    ] + ["" for _ in range(9)] + [comment_note]
 
     st.markdown("### UDA Quick Entry")
     st.code("\t".join(str(v) for v in credit_values), language="text")
 
-        # Excel Row Preview
-    st.markdown("### 📄 Excel Section")
-
+    # --- Excel Table Row ---
     deposit_type = "Deposit" if amount > 0 else "Withdrawal"
     fee_or_credit = "Fee" if amount > 0 else "Credit"
     today = datetime.now().strftime("%m/%d/%Y")
 
-    excel_data = {
-        "Request Date": [""],
-        "Submitter": [""],
-        "BLK #": [""],
-        "Custodian": [port_id_input],
-        "Transaction Date": [supp_bill_date.strftime("%m/%d/%Y")],
-        "Deposit/Withdrawal": [deposit_type],
-        "Manual Fee/Credit": [fee_or_credit],
-        "UDA Billing Date": [quarter_end_date.strftime("%m/%d/%Y")],
-        "Amount": [f"{fee:,.2f}"],
-        "Processor": [""],
-        "Date Processed": [today],
-        "Auditor": [""],
-        "Date Audited": [""],
-        "UDA": [comment_note]
+    new_excel_row = {
+        "Request Date": "",
+        "Submitter": "",
+        "BLK #": "",
+        "Custodian": port_id_input,
+        "Transaction Date": supp_bill_date.strftime("%m/%d/%Y"),
+        "Deposit/Withdrawal": deposit_type,
+        "Manual Fee/Credit": fee_or_credit,
+        "UDA Billing Date": quarter_end_date.strftime("%m/%d/%Y"),
+        "Amount": f"{fee:,.2f}",
+        "Processor": "",
+        "Date Processed": today,
+        "Auditor": "",
+        "Date Audited": "",
+        "UDA": comment_note
     }
 
-    df_excel = pd.DataFrame(excel_data)
-    df_excel.index = ['']
-    st.dataframe(df_excel, use_container_width=True)
-    
-    #Excel Copy to Clipboard
-    excel_string = "\t".join(str(excel_data[key][0]) for key in df_excel.columns)
-    st.code(excel_string, language="text")
+    if st.button("➕ Add to Excel Table"):
+        st.session_state.excel_rows.append(new_excel_row)
 
-    st.text("Author: Kevin Vo")
+# --- Display Excel Table ---
+if st.session_state.excel_rows:
+    st.markdown("### \U0001F4C4 Excel Table (All Entries)")
+    df = pd.DataFrame(st.session_state.excel_rows)
+    df.index = [''] * len(df)  # hide row numbers
+    st.dataframe(df, use_container_width=True)
+
+st.markdown("---")
+st.markdown("**Author: Kevin Vo**")
