@@ -61,7 +61,7 @@ else:
     days_left = calculate_days_left(supp_bill_date, quarter_end_date)
     fee = calculate_annualized_fee(amount, rate, days_left)
 
-    st.subheader("\U0001F4C8 Fee Summary")
+    st.subheader("Fee Summary")
     st.write(f"**Days Left in Quarter**: {days_left}")
     st.success(f"**Calculated Fee**: ${fee:,.2f}")
 
