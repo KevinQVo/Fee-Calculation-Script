@@ -123,14 +123,15 @@ else:
 
 # --- Display Excel Table ---
 if st.session_state.excel_rows:
-    st.markdown("### \U0001F4C4 Excel Table (All Entries)")
+    st.markdown("### 🗑️ Delete a Row")
 
-    for i, row in enumerate(st.session_state.excel_rows):
-        st.write(f"**Row {i+1}**")
-        st.json(row)
-        if st.button(f"❌ Delete Row {i+1}", key=f"delete_{i}"):
-            st.session_state.excel_rows.pop(i)
-            st.rerun()
+    row_options = [f"Row {i+1}" for i in range(len(st.session_state.excel_rows))]
+    row_to_delete = st.selectbox("Select a row to delete:", row_options)
+
+    if st.button("❌ Delete Selected Row"):
+        index = row_options.index(row_to_delete)
+        st.session_state.excel_rows.pop(index)
+        st.rerun()
 
     df = pd.DataFrame(st.session_state.excel_rows)
     df.index = [''] * len(df)  # hide row numbers
