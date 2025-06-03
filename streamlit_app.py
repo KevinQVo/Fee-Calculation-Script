@@ -1,5 +1,6 @@
 import streamlit as st
 from datetime import datetime
+import pandas as pd
 
 # Functions
 def parse_number_with_commas(number_str):
@@ -92,25 +93,30 @@ else:
     st.code("\t".join(str(v) for v in credit_values), language="text")
 
         # Excel Row Preview
-    st.markdown("### Excel")
+    st.markdown("### 📄 Excel Section")
 
     deposit_type = "Deposit" if amount > 0 else "Withdrawal"
     fee_or_credit = "Fee" if amount > 0 else "Credit"
     today = datetime.now().strftime("%m/%d/%Y")
 
-    excel_values = [
-        port_id_input,  # Custodian
-        supp_bill_date.strftime("%m/%d/%Y"),  # Transaction Date
-        deposit_type,
-        fee_or_credit,
-        quarter_end_date.strftime("%m/%d/%Y"),  # UDA Billing Date
-        f"{fee:,.2f}",  # Amount
-        today,  # Date Processed
-        comment_note  # UDA
-    ]
+    excel_data = {
+        "Request Date": [""],
+        "Submitter": [""],
+        "BLK #": [""],
+        "Custodian": [port_id_input],
+        "Transaction Date": [supp_bill_date.strftime("%m/%d/%Y")],
+        "Deposit/Withdrawal": [deposit_type],
+        "Manual Fee/Credit": [fee_or_credit],
+        "UDA Billing Date": [quarter_end_date.strftime("%m/%d/%Y")],
+        "Amount": [f"{fee:,.2f}"],
+        "Processor": [""],
+        "Date Processed": [today],
+        "Auditor": [""],
+        "Date Audited": [""],
+        "UDA": [comment_note]
+    }
 
-    st.code("\t".join(str(v) for v in excel_values), language="text")
-    st.caption("Copy this Excel row and paste it into the upload template.")
-
+    df_excel = pd.DataFrame(excel_data)
+    st.dataframe(df_excel, use_container_width=True)
 
     st.text("Author: Kevin Vo")
