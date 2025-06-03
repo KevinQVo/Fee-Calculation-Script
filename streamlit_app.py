@@ -133,7 +133,7 @@ if st.session_state.excel_rows:
     st.markdown("### \U0001F4C4 Excel Table (All Entries)")
 
     df = pd.DataFrame(st.session_state.excel_rows)
-    df.index = [''] * len(df)  # hide row numbers
+    # df.index = [''] * len(df)  # hide row numbers
     st.dataframe(df, use_container_width=True)
 
     # --- Delete Row Section ---
