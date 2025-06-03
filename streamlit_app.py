@@ -123,12 +123,14 @@ else:
 
 # --- Display Excel Table ---
 if st.session_state.excel_rows:
-    st.markdown("### 🗑️ Delete a Row")
+    st.markdown("### \U0001F4C4 Excel Table (All Entries)")
 
     df = pd.DataFrame(st.session_state.excel_rows)
     df.index = [''] * len(df)  # hide row numbers
     st.dataframe(df, use_container_width=True)
 
+    # --- Delete Row Section ---
+    st.markdown("### 🗑️ Delete a Row")
     row_options = [f"Row {i+1}" for i in range(len(st.session_state.excel_rows))]
     row_to_delete = st.selectbox("Select a row to delete:", row_options)
 
@@ -136,7 +138,6 @@ if st.session_state.excel_rows:
         index = row_options.index(row_to_delete)
         st.session_state.excel_rows.pop(index)
         st.rerun()
-
 
 st.markdown("---")
 st.markdown("**Author: Kevin Vo**")
