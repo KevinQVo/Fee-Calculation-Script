@@ -91,8 +91,8 @@ else:
     st.markdown("### UDA Quick Entry")
     st.code("\t".join(str(v) for v in credit_values), language="text")
 
-    # --- Excel Section ---
-    st.markdown("### 📄 Excel Row Preview")
+        # Excel Row Preview
+    st.markdown("### Excel")
 
     deposit_type = "Deposit" if amount > 0 else "Withdrawal"
     fee_or_credit = "Fee" if amount > 0 else "Credit"
@@ -101,15 +101,16 @@ else:
     excel_values = [
         port_id_input,  # Custodian
         supp_bill_date.strftime("%m/%d/%Y"),  # Transaction Date
-        deposit_type,  # Deposit/Withdrawal
-        fee_or_credit,  # Manual Fee/Credit
+        deposit_type,
+        fee_or_credit,
         quarter_end_date.strftime("%m/%d/%Y"),  # UDA Billing Date
-        f"{fee:,.2f}",  # Amount (calculated fee)
+        f"{fee:,.2f}",  # Amount
         today,  # Date Processed
-        comment_note  # UDA (comment from UDA Quick Entry)
+        comment_note  # UDA
     ]
 
     st.code("\t".join(str(v) for v in excel_values), language="text")
     st.caption("Copy this Excel row and paste it into the upload template.")
+
 
     st.text("Author: Kevin Vo")
