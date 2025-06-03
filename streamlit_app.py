@@ -102,7 +102,6 @@ else:
     blk_input = st.text_input("BLK #")
     processor_input = st.text_input("Processor")
     auditor_input = st.text_input("Auditor")
-    date_audited_input = st.text_input("Date Audited")
 
     # --- Excel Table Row ---
     deposit_type = "Deposit" if amount > 0 else "Withdrawal"
@@ -122,7 +121,7 @@ else:
         "Processor": processor_input,
         "Date Processed": today,
         "Auditor": auditor_input,
-        "Date Audited": date_audited_input,
+        "Date Audited": "",
         "UDA": comment_note
     }
 
