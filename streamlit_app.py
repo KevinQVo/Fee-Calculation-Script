@@ -144,5 +144,28 @@ if st.session_state.excel_rows:
         st.session_state.excel_rows = []
         st.rerun()
 
+    # --- Fill Missing Fields Section ---
+    st.markdown("### ✏️ Fill In Missing Fields")
+    selected_row_label = st.selectbox("Select a row to edit:", row_options, key="edit_select")
+    row_index = row_options.index(selected_row_label)
+
+    with st.form(key="fill_missing_form"):
+        request_date = st.text_input("Request Date", st.session_state.excel_rows[row_index].get("Request Date", ""))
+        submitter = st.text_input("Submitter", st.session_state.excel_rows[row_index].get("Submitter", ""))
+        blk_num = st.text_input("BLK #", st.session_state.excel_rows[row_index].get("BLK #", ""))
+        processor = st.text_input("Processor", st.session_state.excel_rows[row_index].get("Processor", ""))
+        auditor = st.text_input("Auditor", st.session_state.excel_rows[row_index].get("Auditor", ""))
+        date_audited = st.text_input("Date Audited", st.session_state.excel_rows[row_index].get("Date Audited", ""))
+
+        if st.form_submit_button("✅ Update Row"):
+            st.session_state.excel_rows[row_index]["Request Date"] = request_date
+            st.session_state.excel_rows[row_index]["Submitter"] = submitter
+            st.session_state.excel_rows[row_index]["BLK #"] = blk_num
+            st.session_state.excel_rows[row_index]["Processor"] = processor
+            st.session_state.excel_rows[row_index]["Auditor"] = auditor
+            st.session_state.excel_rows[row_index]["Date Audited"] = date_audited
+            st.success(f"{selected_row_label} updated!")
+            st.rerun()
+
 st.markdown("---")
 st.markdown("**Author: Kevin Vo**")
