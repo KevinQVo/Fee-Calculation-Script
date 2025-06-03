@@ -138,11 +138,11 @@ if st.session_state.excel_rows:
     st.dataframe(df, use_container_width=True)
 
     # --- Delete Row Section ---
-    st.markdown("Delete a Row")
+    st.markdown("### Delete a Row")
     row_options = [f"Row {i+1}" for i in range(len(st.session_state.excel_rows))]
     row_to_delete = st.selectbox("Select a row to delete:", row_options)
 
-    if st.button("### Delete Selected Row"):
+    if st.button("Delete Selected Row"):
         index = row_options.index(row_to_delete)
         st.session_state.excel_rows.pop(index)
         st.rerun()
