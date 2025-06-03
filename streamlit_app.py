@@ -124,6 +124,14 @@ else:
 # --- Display Excel Table ---
 if st.session_state.excel_rows:
     st.markdown("### \U0001F4C4 Excel Table (All Entries)")
+
+    for i, row in enumerate(st.session_state.excel_rows):
+        st.write(f"**Row {i+1}**")
+        st.json(row)
+        if st.button(f" Delete Row {i+1)", key=f"delete_{i}"):
+            st.session_state.excel_rows.pop(i)
+            st.experimental_rerun()
+            
     df = pd.DataFrame(st.session_state.excel_rows)
     df.index = [''] * len(df)  # hide row numbers
     st.dataframe(df, use_container_width=True)
