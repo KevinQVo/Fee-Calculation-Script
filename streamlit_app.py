@@ -97,6 +97,8 @@ else:
     st.code("\t".join(str(v) for v in credit_values), language="text")
 
     # --- Additional Input Fields ---
+    st.markdown("### Additional Information")
+    
     request_date_input = st.text_input("Request Date")
     submitter_input = st.text_input("Submitter")
     blk_input = st.text_input("BLK #")
