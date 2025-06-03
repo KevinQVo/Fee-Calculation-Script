@@ -117,6 +117,7 @@ else:
     }
 
     df_excel = pd.DataFrame(excel_data)
-    st.dataframe(df_excel.style.hide(axis="index"), use_container_width=True)
+    df_excel.index = ['']
+    st.dataframe(df_excel, use_container_width=True)
 
     st.text("Author: Kevin Vo")
