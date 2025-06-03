@@ -36,12 +36,6 @@ quarter_end_input = st.text_input("Enter the Quarter End Date (MM/DD/YYYY)", "06
 amount_input = st.text_input("Enter the amount (e.g. 1,000,000)", "100000")
 rate_input = st.text_input("Enter the annual rate (e.g. 0.0012)", "0.0007")
 port_id_input = st.text_input("Custodian #")
-request_date_input = st.text_input("Request Date")
-submitter_input = st.text_input("Submitter")
-blk_input = st.text_input("BLK #")
-processor_input = st.text_input("Processor")
-auditor_input = st.text_input("Auditor")
-date_audited_input = st.text_input("Date Audited")
 
 # --- Hidden Logic Fields ---
 exclude_input = ""
@@ -101,6 +95,14 @@ else:
 
     st.markdown("### UDA Quick Entry")
     st.code("\t".join(str(v) for v in credit_values), language="text")
+
+    # --- Additional Input Fields ---
+    request_date_input = st.text_input("Request Date")
+    submitter_input = st.text_input("Submitter")
+    blk_input = st.text_input("BLK #")
+    processor_input = st.text_input("Processor")
+    auditor_input = st.text_input("Auditor")
+    date_audited_input = st.text_input("Date Audited")
 
     # --- Excel Table Row ---
     deposit_type = "Deposit" if amount > 0 else "Withdrawal"
