@@ -119,5 +119,7 @@ else:
     df_excel = pd.DataFrame(excel_data)
     df_excel.index = ['']
     st.dataframe(df_excel, use_container_width=True)
+    excel_string = "\t".join(str(v) for v in excel_values)
+    st.code(excel_string, langugue="text")
 
     st.text("Author: Kevin Vo")
