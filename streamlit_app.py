@@ -128,7 +128,7 @@ if st.session_state.excel_rows:
     for i, row in enumerate(st.session_state.excel_rows):
         st.write(f"**Row {i+1}**")
         st.json(row)
-        if st.button(f" Delete Row {i+1)", key=f"delete_{i}"):
+        if st.button(f" Delete Row {i+1}", key=f"delete_{i}"):
             st.session_state.excel_rows.pop(i)
             st.experimental_rerun()
             
