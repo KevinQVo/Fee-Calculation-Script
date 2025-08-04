@@ -31,10 +31,10 @@ st.set_page_config(page_title="Fee Calculator", layout="centered")
 st.title("Fee Calculation Tool")
 
 # Input Fields
-supp_bill_input = st.text_input("Enter the Supplemental Bill Date (MM/DD/YYYY)", "05/03/2025")
-quarter_end_input = st.text_input("Enter the Quarter End Date (MM/DD/YYYY)", "06/30/2025")
-amount_input = st.text_input("Enter the amount (e.g. 1,000,000)", "100000")
-rate_input = st.text_input("Enter the Quarterly rate (e.g. 0.0012)", "0.0007")
+supp_bill_input = st.text_input("Enter the Supplemental Bill Date (MM/DD/YYYY)")
+quarter_end_input = st.text_input("Enter the Quarter End Date (MM/DD/YYYY)", "09/30/2025")
+amount_input = st.text_input("Enter the amount (e.g. 1,000,000)")
+rate_input = st.text_input("Enter the Quarterly rate (e.g. 0.0012)")
 port_id_input = st.text_input("Custodian #")
 
 # Hidden Logic Fields
