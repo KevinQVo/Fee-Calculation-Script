@@ -155,4 +155,4 @@ if st.session_state.excel_rows:
         st.rerun()
 
 st.markdown("---")
-st.markdown("**Author: Kevin Vo123123**")
+st.markdown("**Author: Kevin Vo**")
